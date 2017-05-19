@@ -14,8 +14,9 @@ class SteamUtility(object):
         
 
     def spawnApp(self, gameDir):
-        execPath = gameDir + self.getGameExecutablePath(gameDir)
-        subprocess.run(["start", appsPathname+gameDir])
+        execPath = self.getAppExecutablePath(gameDir)
+        print(execPath)
+        subprocess.call([execPath])
 
 
     def getAllAppPaths(self):
@@ -65,5 +66,8 @@ def main():
     print(apps)
     for app in apps:
         print(stmUtil.getAppExecutablePath(app))
+    for app in apps:
+        if app == 'MOBIUS FINAL FANTASY':
+            stmUtil.spawnApp(app)
 if __name__ == "__main__":
     main()
