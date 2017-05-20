@@ -120,9 +120,9 @@ class IBMWatsonUtility(object):
 
     def add_silence(self, snd_data, seconds):
         "Add silence to the start and end of 'snd_data' of length 'seconds' (float)"
-        r = array('h', [0 for i in xrange(int(seconds*self.rate))])
+        r = array('h', [0 for i in range(int(seconds*self.rate))])
         r.extend(snd_data)
-        r.extend([0 for i in xrange(int(seconds*self.rate))])
+        r.extend([0 for i in range(int(seconds*self.rate))])
         return r
 
     def record(self):
