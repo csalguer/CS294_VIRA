@@ -1,7 +1,6 @@
 #!/usr/bin/env python2
 
-# NOTE: this example requires PyAudio because it uses the Microphone class
-
+from __future__ import print_function
 import os
 import speech_recognition as sr
 import subprocess
@@ -58,10 +57,28 @@ class SteamUtility(object):
 
 
 def main():
-    appDataDir = 'D:\SteamLibrary\steamapps\common'
-    stmUtil = SteamUtility(appDataDir)
-    appPaths = stmUtil.getAllAppPaths()
-    apps = stmUtil.getAllApps()
+    # Used for voice recognition
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("What is your name?")
+        print("Listening for audio...", end='\r', flush=True)
+        audio = r.listen(source)
+        print("Analyzing your speech...", end='\r', flush=True)
+        name = r.recognize_google(audio).title()
+
+    print("Hi, {}".format(name))
+    
+    ###
+
+    # print("{}, would you like to change the volume?".format(name))
+    # print("Indicate ")
+
+
+
+    # appDataDir = 'D:\SteamLibrary\steamapps\common'
+    # stmUtil = SteamUtility(appDataDir)
+    # appPaths = stmUtil.getAllAppPaths()
+    # apps = stmUtil.getAllApps()
 
 
     # obtain audio from the microphone
@@ -82,8 +99,8 @@ def main():
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-    if result == "tilt brush":
-        stmUtil.spawnApp("Tilt Brush")  
+    # if result == "tilt brush":
+    #     stmUtil.spawnApp("Tilt Brush")  
     # print(appPaths)
     # print(apps)
     # stmUtil.spawnApp("Tilt Brush")
