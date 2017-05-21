@@ -1,52 +1,5 @@
-#!/usr/bin/env python2
-
-import os
 import speech_recognition as sr
-import subprocess
-import sys
-
-class SteamUtility(object):
-    """docstring for SteamUtility"""
-    def __init__(self, appsPathname):
-        super(SteamUtility, self).__init__()
-        self.appsPathname = appsPathname
-        self.appNames = []
-        
-
-    def spawnApp(self, gameDir):
-        execPath = self.getAppExecutablePath(gameDir)
-        print(execPath)
-        subprocess.call([execPath])
-
-
-    def getAllAppPaths(self):
-        d = []
-        for (dirpath, dirnames, filenames) in os.walk(self.appsPathname):
-            d.extend(dirnames)
-            break
-        dPaths = [os.path.join(dirpath, dirName) for dirName in d ]
-        return dPaths
-
-    def getAllApps(self):
-        a = []
-        for (dirpath, dirnames, filenames) in os.walk(self.appsPathname):
-            a.extend(dirnames)
-            break
-        return a
-
-    def getAppExecutablePath(self, appDir, appPath=None):
-        f = []
-        if appPath is None:
-            appPath =  os.path.join(self.appsPathname, appDir)
-        for (dirpath, dirnames, filenames) in os.walk(appPath):
-            f.extend(filenames)
-            break
-        for file in f:
-            if file.endswith('.exe'):
-                return os.path.join(dirpath, file)
-        return None
-
-
+import steam_utility
 
 def main():
     # Used for voice recognition
