@@ -3,8 +3,10 @@ import collections
 class SpellCorrector(object):
     
     def __init__(self, appNames):
-        self.appNames = [name.lower() for name in appNames]
-        self.distances = collections.defaultdict(lambda: 0)
+        self.appNames = dict()
+        for name in appNames:
+            self.appNames[name.lower()] = name
+        self.distances = collections.defaultdict(lambda: 10)
 
 
     def levenshtein(self, s1, s2):
@@ -30,20 +32,20 @@ class SpellCorrector(object):
     def getDistances(self, word):
         for name in self.appNames:
             self.distances[name] = self.levenshtein(word, name)
-            print name, self.distances[name]
+            #print name, self.distances[name]
 
     def getClosestName(self, word):
         self.getDistances(word)
         name = min(self.distances, key=self.distances.get)
-        print
-        print name
-        return name
+        #print
+        return self.appNames[name] if self.distances[name] < 10 else ""
 
 def main():
-    print "Woop"
-    appNames = ["paint", "steam", "tilt brush"]
+    appNames = ["FEZ", "Super Meat Boy"]
     sp = SpellCorrector(appNames)
-    name = sp.getClosestName("eight")
+    s = raw_input('Enter a word: ')
+    name = sp.getClosestName(s.lower())
+    print name
 
 if __name__ == "__main__":
     main()
