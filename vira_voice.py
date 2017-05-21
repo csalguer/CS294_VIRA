@@ -4,6 +4,8 @@ import sys
 import os
 import wave
 import pyaudio
+from playsound import playsound
+
 
 class VIRAVoiceBox(object):
 	"""docstring for VIRAVoiceBox"""
@@ -13,45 +15,48 @@ class VIRAVoiceBox(object):
 
 	def utterPhrase(self, text):
 	    assert text is not None
-	    path = self.__createSpokenWAV(text)
+	    path = self.__createSpokenFile(text)
 	    if path is None:
 	        print("[Error]: Couldn't find file location for temp utterance")
 	        return False
-	    print("Attempting to play: ", path)
 	    self.__playbackUtterance(path)
 	    return True
 
-	def __createSpokenWAV(self, text):
-	    try:
-	        winPath = os.path.join(os.getcwd(), 'resources\\temp\\output.wav')
-	        relPath = 'resources/temp/output.wav'
-	       	gTTS(text, lang='en', slow=True).save(relPath)
-	        return relPath
-	    except Error:
-	        print("Error in voice_synth creation")
-	        return None
+	def __createSpokenFile(self, text, relPath='resources/temp/output.mp3'):
+		try:
+			winRelPath = os.path.join(os.getcwd(), 'resources\\temp\\output.mp3')
+			# relWavPath = 'resources/temp/output.wav'
+			gTTS(text, lang='en', slow=False).save(relPath)
+			# rec = AudioSegment.from_mp3(relPath)
+			# rec.export(relWavPath, format="wav")
+			return relPath
+		except:
+			print("Error in voice_synth creation")
+			return None
 
-	def __playbackUtterance(self, pathname): 
-		f = wave.open(pathname,"rb")
-		p = pyaudio.PyAudio() 
-		stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
-						channels = f.getnchannels(),
-						rate = f.getframerate(),
-						output = True)
-		data = f.readframes(self.chunk_size)
-		while data:  
-			stream.write(data)
-			data = f.readframes(self.chunk_size)
-		stream.stop_stream()
-		stream.close()
-		p.terminate()
+	def __playbackUtterance(self, pathname):
+		print("Attempting to play: ", pathname)
+		playsound(pathname)
+		# buf = 3072
+		# pygame.mixer.init()
+		# fq, size, chn = pygame.mixer.get_init()
+		# pygame.mixer.init(fq, size, chn, buf)
+		# pygame.init()
+		# pygame.mixer.init()
+		# clock = pygame.time.Clock()
+		# pygame.mixer.music.load(pathname)
+		# pygame.mixer.music.play()
+		# while True:
+		# 	clock.tick(500)
+		# 	print(clock)
+		
 
 
 
 
 def main():
 	vb = VIRAVoiceBox()
-	vb.utterPhrase("Choices are, One: Mobius Final Fantasy, Two: Tilt brush, Three: Bio shock")
+	vb.utterPhrase("Choices are, One: Mobius Final Fantasy, Two: Tilt brush, Three: Bioshock, and finally Four: Faerie")
 
 if __name__ == '__main__':
 	main()
