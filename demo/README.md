@@ -1,1 +1,0 @@
-Designed for Python 2 (specifically, version 2.7.11+)
