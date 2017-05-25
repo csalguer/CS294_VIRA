@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""SpellCorrector
+
+CS294W, Spring 2016-2017.
+"""
+
 import collections
 
 class SpellCorrector(object):
