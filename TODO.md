@@ -1,0 +1,21 @@
+TODO
+====
+- A virtual assistant for VR-enabled operating systems.
+- look up hotword detection libraries
+- send keystrokes into app
+- click menu button from app
+- what time is it
+- what's the weather like
+- search google for blah
+- by default common tasks for google
+- by default common tasks for siri
+- search wolfram alpha
+- set time
+- walkthrough for game
+- bing has api for results
+- throw voice to google assistant
+- throw voice to api
+- add contextual words behind-the-scenes to a google search
+- add note taking
+- add reminders
+- allow leaving notes for other people
