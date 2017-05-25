@@ -24,8 +24,12 @@ def main():
     print
 
     app = speech_util.get_app(spell_corr)
-    print "Sounds good, {}. Opening {}...".format(speech_util.first_name, app)
-    steam_util.spawn_app(app, vira.config.Mac.extension)
+    if app in apps:
+        print "Sounds good, {}. Opening {}...".format(speech_util.first_name, app)
+        steam_util.spawn_app(app, vira.config.Mac.extension)
+    else:
+        print "Unfortunately, I don't think we have that app."
+        print "Sorry, {}!".format(speech_util.first_name)
 
 
 
