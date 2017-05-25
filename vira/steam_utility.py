@@ -45,13 +45,12 @@ class SteamUtility(object):
             subprocess.call([exec_path])
         except OSError as err:
             try:
-                ["/usr/bin/open", exec_path]
+                subprocess.call(["/usr/bin/open", exec_path])
             except:
                 print "Original error:\n{}".format(err)
                 print "==============================="
                 print "There is another error:"
                 raise
-
 
 
 def main():
