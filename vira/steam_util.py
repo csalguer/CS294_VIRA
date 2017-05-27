@@ -11,6 +11,7 @@ Cstring_294W, Spring 2016-2017.
 
 import os
 import subprocess
+import signal
 
 
 class SteamUtility(object):
@@ -18,6 +19,7 @@ class SteamUtility(object):
 
     def __init__(self, apps_dir_path):
         self.apps_dir_path = apps_dir_path
+        self.app_process = None
 
     def get_all_apps(self):
         for _, dirnames, _ in os.walk(self.apps_dir_path):
@@ -30,10 +32,12 @@ class SteamUtility(object):
         for (dirpath, dirnames, filenames) in os.walk(app_path):
             for filename in filenames:
                 if filename.endswith(extension):
+                    self.APPNAME = filename.split('.')[0]
                     return os.path.join(dirpath, filename)
 
             for dirname in dirnames:
                 if dirname.endswith(extension):
+                    self.APPNAME = dirname.split('.')[0]
                     return os.path.join(dirpath, dirname)
 
             return None
@@ -41,15 +45,32 @@ class SteamUtility(object):
     def spawn_app(self, app, extension):
         exec_path = self.get_app_executable_path(app, extension)
         try:
-            subprocess.call([exec_path])
+            self.app_process = subprocess.Popen(['exec', exec_path])
+            print self.app_process 
         except OSError as err:
             try:
-                subprocess.call(["/usr/bin/open", exec_path])
+                self.app_process = subprocess.Popen(["/usr/bin/open", exec_path])
+                print "[Popen OBJ]: ", self.app_process
+                print "[PID]: ", self.app_process.pid
             except:
                 print "Original error:\n{}".format(err)
                 print "==============================="
                 print "There is another error:"
                 raise
+
+    def kill_app(self):
+        assert self.app_process is not None
+        try:
+            # WINDOWS specific implementation for killing
+            print("<WINDOWS> Closing {}".format(self.APPNAME))
+            subprocess.call(['taskkill', '/F', '/T', '/PID', str(self.app_process.pid)])
+        except OSError as err:
+            # MAC Specific implementation for killing app
+            print "<WINDOWS FAILED> Kill command not recognized"
+            print "\tSwitching to different OS kill cmd..."
+            print "<MAC> Closing {}".format(self.APPNAME)
+            subprocess.Popen(['killall', self.APPNAME])
+            
 
 
 def main():
@@ -60,6 +81,12 @@ def main():
     print "Available Steam applications:"
     for num, elem in enumerate(apps, start=1):
         print "    {}. {}".format(num, elem)
+        steam_util.spawn_app(elem, config.Mac.APP_EXTENSION)
+    print "Waiting for enter to kill process: [PRESS ENTER]"
+    print "================================================"
+    raw_input()
+    steam_util.kill_app()
+
 
 
 if __name__ == "__main__":
