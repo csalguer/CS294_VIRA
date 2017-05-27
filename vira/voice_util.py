@@ -11,6 +11,9 @@ Cstring_294W, Spring 2016-2017.
 
 import gtts
 import playsound
+import urllib3
+
+urllib3.disable_warnings()
 
 
 class VoiceUtility(object):
