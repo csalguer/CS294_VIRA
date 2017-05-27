@@ -29,6 +29,7 @@ def main():
     spell_util = vira.spell_util.SpellUtility(apps)
     voice_util = vira.voice_util.VoiceUtility('vira/voice_files/output.mp3')
     sys.stdout.write("\033[K")  # clear "loading..." line
+    sys.stdout.flush()
 
     speech_util = vira.speech_util.SpeechUtility(voice_util)
     speech_util.get_name()

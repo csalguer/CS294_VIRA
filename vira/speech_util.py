@@ -22,10 +22,9 @@ class SpeechUtility(object):
         self.voice_util = voice_util
 
     def get_app(self, spell_corr):
+        phrase = "Which app would you like to open, {}?".format(self.first_name)
+        self.speak_and_print(phrase)
         with sr.Microphone() as mike:
-            phrase = "Which app would you like to open, {}?".format(self.first_name)
-            self.speak_and_print(phrase)
-
             while True:
                 try:
                     print "Listening for audio...", '\r',
@@ -35,6 +34,7 @@ class SpeechUtility(object):
                     sys.stdout.flush()
                     # TODO: get API key for Google Speech Recognition
                     app_guess = self.recognizer.recognize_google(audio)
+                    break
 
                 except sr.UnknownValueError:
                     sys.stdout.write("\033[K")  # clear line
@@ -49,8 +49,6 @@ class SpeechUtility(object):
                 except sr.RequestError:
                     print "RequestError: The requested transmission failed."
                     raise
-
-                break
 
         sys.stdout.write("\033[K")  # clear line
         sys.stdout.write("\033[F")  # back to previous line
