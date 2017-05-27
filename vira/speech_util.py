@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """SpeechUtility
 
+ASR system based on Google Speech Recognition.
+
+Authored by Ikechi Akujobi, Matthew Chen, Chris Salguero.
 CS294W, Spring 2016-2017.
+© Stanford University.
 """
 
 import sys
@@ -49,7 +53,7 @@ class SpeechUtility(object):
         sys.stdout.write("\033[F")  # back to previous line
         sys.stdout.write("\033[K")  # clear line
         sys.stdout.flush()
-        app = spell_corr.getClosestName(app_guess.lower())
+        app = spell_corr.get_closest_name(app_guess.lower())
         return app
 
     def get_name(self):

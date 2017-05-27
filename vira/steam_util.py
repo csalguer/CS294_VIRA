@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 """SteamUtility
 
-CS294W, Spring 2016-2017.
+System-related methods for manipulating Steam games
+that have already been installed on the system.
+
+Authored by Ikechi Akujobi, Matthew Chen, Chris Salguero.
+Cstring_294W, Spring 2016-2017.
+© Stanford University.
 """
 
 import os
@@ -15,29 +20,23 @@ class SteamUtility(object):
         self.apps_dir_path = apps_dir_path
 
     def get_all_apps(self):
-        for dirpath, dirnames, filenames in os.walk(self.apps_dir_path):
+        for _, dirnames, _ in os.walk(self.apps_dir_path):
             return dirnames
 
     def get_app_executable_path(self, app_dir, extension, app_path=None):
-        files = []
         if app_path is None:
             app_path = os.path.join(self.apps_dir_path, app_dir)
-        
+
         for (dirpath, dirnames, filenames) in os.walk(app_path):
-            files.extend(filenames)
-            break
+            for filename in filenames:
+                if filename.endswith(extension):
+                    return os.path.join(dirpath, filename)
 
-        for file in files:
-            if file.endswith(extension):
-                return os.path.join(dirpath, file)
+            for dirname in dirnames:
+                if dirname.endswith(extension):
+                    return os.path.join(dirpath, dirname)
 
-        dirs = []
-        dirs.extend(dirnames)
-        for dirname in dirs:
-            if dirname.endswith(extension):
-                return os.path.join(dirpath, dirname)
-
-        return None
+            return None
 
     def spawn_app(self, app, extension):
         exec_path = self.get_app_executable_path(app, extension)
@@ -55,7 +54,7 @@ class SteamUtility(object):
 
 def main():
     import config
-    apps_dir_path = config.Mac.app_data_dir
+    apps_dir_path = config.Mac.APP_DATA_DIR
     steam_util = SteamUtility(apps_dir_path)
     apps = steam_util.get_all_apps()
     print "Available Steam applications:"
