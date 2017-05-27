@@ -24,6 +24,7 @@ class SpeechUtility(object):
     def get_app(self, spell_corr):
         phrase = "Which app would you like to open, {}?".format(self.first_name)
         self.speak_and_print(phrase)
+
         with sr.Microphone() as mike:
             while True:
                 try:
@@ -58,9 +59,9 @@ class SpeechUtility(object):
         return app
 
     def get_name(self):
-        with sr.Microphone() as mike:
-            self.speak_and_print("What is your name?")
+        self.speak_and_print("What is your name?")
 
+        with sr.Microphone() as mike:
             while True:
                 try:
                     print "Listening for audio...", '\r',
@@ -72,6 +73,7 @@ class SpeechUtility(object):
                     name = self.recognizer.recognize_google(audio).title()
                     if name.lower() == "ekg":
                         name = "Ikechi"
+                    break
 
                 except sr.UnknownValueError:
                     sys.stdout.write("\033[K")  # clear line
@@ -85,7 +87,6 @@ class SpeechUtility(object):
                     print "RequestError: The requested transmission failed."
                     raise
 
-                break
 
         sys.stdout.write("\033[K")  # clear line
         sys.stdout.write("\033[F")  # back to previous line
