@@ -4,9 +4,9 @@ TODO
 - look up hotword detection libraries
 - send keystrokes into app
 - click menu button from app
-- what time is it
+- what time is it (Matthew is currently working on it)
 - what's the weather like
-- search google for blah
+- search google for blah (Chris has started doing it for video game walkthroughs)
 - by default common tasks for google
 - by default common tasks for siri
 - search wolfram alpha
