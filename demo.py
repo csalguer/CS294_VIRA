@@ -22,8 +22,8 @@ def speak_and_print(voice_util, phrase):
 def main():
     print "VIRA is loading...", '\r',
     sys.stdout.flush()
-
-    apps_dir_path = vira.config.Mac.APP_DATA_DIR
+    config = vira.config.get_config()
+    apps_dir_path = config.APP_DATA_DIR
     steam_util = vira.steam_util.SteamUtility(apps_dir_path)
     apps = steam_util.get_all_apps()
     spell_util = vira.spell_util.SpellUtility(apps)
@@ -46,7 +46,7 @@ def main():
     if app in apps:
         phrase = "Sounds good, {}. Opening {}...".format(speech_util.first_name, app)
         speak_and_print(voice_util, phrase)
-        steam_util.spawn_app(app, vira.config.Mac.APP_EXTENSION)
+        steam_util.spawn_app(app, config.APP_EXTENSION)
     else:
         speak_and_print(voice_util, "Unfortunately, I don't think we have that app.")
         speak_and_print(voice_util, "Sorry, {}!".format(speech_util.first_name))

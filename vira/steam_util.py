@@ -75,17 +75,17 @@ class SteamUtility(object):
 
 def main():
     import config
-    apps_dir_path = config.Mac.APP_DATA_DIR
+    apps_dir_path = config.get_config().APP_DATA_DIR
     steam_util = SteamUtility(apps_dir_path)
     apps = steam_util.get_all_apps()
     print "Available Steam applications:"
     for num, elem in enumerate(apps, start=1):
         print "    {}. {}".format(num, elem)
-        steam_util.spawn_app(elem, config.Mac.APP_EXTENSION)
-    print "Waiting for enter to kill process: [PRESS ENTER]"
-    print "================================================"
-    raw_input()
-    steam_util.kill_app()
+    #     steam_util.spawn_app(elem, config.Mac.APP_EXTENSION)
+    # print "Waiting for enter to kill process: [PRESS ENTER]"
+    # print "================================================"
+    # raw_input()
+    # steam_util.kill_app()
 
 
 
