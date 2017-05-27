@@ -11,10 +11,11 @@ Installation
     # only if on mac (requires homebrew installation)
     brew install portaudio
     pip install pyobjc
-    pip install pyaudio
 
+    ######################################################
     # only if on linux (or linux on windows)
-    sudo apt-get install python-pyaudio
+    sudo apt-get install gcc portaudio19-dev python-all-dev
+    #######################################################
 
     # for mac, windows, and linux
     pip install -r requirements.txt

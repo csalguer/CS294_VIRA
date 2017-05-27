@@ -10,6 +10,7 @@ Cstring_294W, Spring 2016-2017.
 """
 
 import gtts
+import os
 import playsound
 import urllib3
 
@@ -28,21 +29,28 @@ class VoiceUtility(object):
         if not text:
             return False
 
-        try:
-            self._create_spoken_file(text)
-        except:
-            print "[Error]: Couldn't find file location for temp utterance"
-            return False
+        num_failures = 0
+        while True:
+            if num_failures > 2:
+                return False
+
+            try:
+                gtts.gTTS(text, lang='en', slow=False).save(self.rel_path)
+                break
+
+            except IOError:
+                num_failures += 1
+                dir_ = os.path.dirname(self.rel_path)
+                if not os.path.exists(dir_):
+                    os.makedirs(dir_)
+                open(self.rel_path, 'w').close()
+
+            except Exception as exception:
+                print exception
+                return False
 
         self._playback_utterance()
         return True
-
-    def _create_spoken_file(self, text):
-        try:
-            gtts.gTTS(text, lang='en', slow=False).save(self.rel_path)
-        except Exception as e:
-            print "Error in voice_synth creation"
-            raise
 
     def _playback_utterance(self):
         playsound.playsound(self.rel_path)

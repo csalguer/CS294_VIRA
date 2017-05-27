@@ -102,4 +102,4 @@ ENV/
 
 # other stuff
 .DS_Store
-*/.mp3
+*.mp3

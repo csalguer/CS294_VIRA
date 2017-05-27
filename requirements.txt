@@ -1,4 +1,5 @@
 gTTS==1.2.0
 SpeechRecognition==3.6.5
 playsound==1.2.1
+pyaudio
 urllib3[secure]==1.21.1
