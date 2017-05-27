@@ -17,5 +17,6 @@ class Windows(object):
 
 class Mac(object):
     """Configuration variables for macOS 10.12"""
-    APP_DATA_DIR = r'/Users/mchenja/Library/Application Support/Steam/steamapps/common'
+    # APP_DATA_DIR = r'/Users/mchenja/Library/Application Support/Steam/steamapps/common'
+    APP_DATA_DIR = r'/Users/chris/Library/Application Support/Steam/steamapps/common'
     APP_EXTENSION = ".app"

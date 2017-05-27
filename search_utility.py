@@ -24,15 +24,13 @@ class QueryResult(object):
 Config = namedtuple('Config',['developerKey','cx'])
 
 class SearchUtility(object):
-    """docstring for SearchUtility"""
+    """USES set up CSE on Google Cloud Api to make Search Calls"""
     def __init__(self, configFile='customsearch.json', debug=True):
         print("DEBUG MODE: ", debug)
         super(SearchUtility, self).__init__()
         config = Config(**json.load(open(configFile,'r')))    
         self.config = config
-        self.service = build("customsearch","v1",developerKey=self.config.developerKey)  
-        # self.service = build("customsearch", "v1",
-        # developerKey="AIzaSyDuxJeswLNDUBRzQe_FqRi6BQ_BuDkYSbw")
+        self.service = build("customsearch","v1",developerKey=self.config.developerKey)
         self.debug = debug
 
     # Currently searches over IGN and GameFaqs
