@@ -16,10 +16,10 @@ import playsound
 class VoiceUtility(object):
     """docstring for VoiceUtility"""
 
-    def __init__(self):
+    def __init__(self, output_path='voice_files/output.mp3'):
         super(VoiceUtility, self).__init__()
         self.chunk_size = 1024
-        self.rel_path = 'voice_files/output.mp3'
+        self.rel_path = output_path
 
     def utter_phrase(self, text):
         if not text:
@@ -37,12 +37,11 @@ class VoiceUtility(object):
     def _create_spoken_file(self, text):
         try:
             gtts.gTTS(text, lang='en', slow=False).save(self.rel_path)
-        except:
+        except Exception as e:
             print "Error in voice_synth creation"
             raise
 
-    def _playback_utterance(self, ):
-        print("Attempting to play: ", self.rel_path)
+    def _playback_utterance(self):
         playsound.playsound(self.rel_path)
 
 

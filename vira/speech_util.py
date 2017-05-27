@@ -15,14 +15,16 @@ import speech_recognition as sr
 class SpeechUtility(object):
     """Encapsulates Automatic Speech Recognition functionality"""
 
-    def __init__(self):
+    def __init__(self, voice_util=None):
         self.recognizer = sr.Recognizer()
         self.name = None
         self.first_name = None
+        self.voice_util = voice_util
 
     def get_app(self, spell_corr):
         with sr.Microphone() as mike:
-            print "Which app would you like to open, {}?".format(self.first_name)
+            phrase = "Which app would you like to open, {}?".format(self.first_name)
+            self.speak_and_print(phrase)
 
             while True:
                 try:
@@ -38,8 +40,9 @@ class SpeechUtility(object):
                     sys.stdout.write("\033[K")  # clear line
                     sys.stdout.write("\033[F")  # back to previous line
                     sys.stdout.write("\033[K")  # clear line
-                    print "Sorry, I didn't hear your properly.",
-                    print "Which app would you like to open, {}?".format(self.first_name)
+                    phrase = ("Sorry, I didn't hear you properly. "
+                              "Which app would you like to open, {}?".format(self.first_name))
+                    self.speak_and_print(phrase)
                     sys.stdout.flush()
                     continue
 
@@ -58,7 +61,7 @@ class SpeechUtility(object):
 
     def get_name(self):
         with sr.Microphone() as mike:
-            print "What is your name?"
+            self.speak_and_print("What is your name?")
 
             while True:
                 try:
@@ -69,12 +72,14 @@ class SpeechUtility(object):
                     sys.stdout.flush()
                     # TODO: get API key for Google Speech Recognition
                     name = self.recognizer.recognize_google(audio).title()
+                    if name.lower() == "ekg":
+                        name = "Ikechi"
 
                 except sr.UnknownValueError:
                     sys.stdout.write("\033[K")  # clear line
                     sys.stdout.write("\033[F")  # back to previous line
                     sys.stdout.write("\033[K")  # clear line
-                    print "Sorry, I didn't hear your properly. What is your name?"
+                    self.speak_and_print("Sorry, I didn't hear you properly. What is your name?")
                     sys.stdout.flush()
                     continue
 
@@ -90,6 +95,11 @@ class SpeechUtility(object):
         sys.stdout.flush()
         self.name = name
         self.first_name = self.name.split()[0]
+
+    def speak_and_print(self, phrase):
+        if self.voice_util:
+            self.voice_util.utter_phrase(phrase)
+        print phrase
 
     def print_hello(self):
         if not self.name:
