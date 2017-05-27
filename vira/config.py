@@ -8,6 +8,7 @@ CS294W, Spring 2016-2017.
 © Stanford University.
 """
 
+import os
 
 class Windows(object):
     """Configuration variables for Windows 10"""
@@ -18,5 +19,5 @@ class Windows(object):
 class Mac(object):
     """Configuration variables for macOS 10.12"""
     # APP_DATA_DIR = r'/Users/mchenja/Library/Application Support/Steam/steamapps/common'
-    APP_DATA_DIR = r'/Users/chris/Library/Application Support/Steam/steamapps/common'
+    APP_DATA_DIR = os.path.expanduser(r'~/Library/Application Support/Steam/steamapps/common')
     APP_EXTENSION = ".app"

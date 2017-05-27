@@ -6,7 +6,17 @@ Installation
 ============
 ```
     git clone https://github.com/csalguer/CS294_VIRA.git
-    TODO: Fill this out
+    cd CS294_VIRA
+
+    # only if on mac (requires homebrew installation)
+    brew install portaudio
+    pip install pyobjc
+
+    # for mac, windows, and linux
+    pip install -r requirements.txt
+
+    # put on your VR headset with microphones + headphones
+    python demo.py
 ```
 
 Notes

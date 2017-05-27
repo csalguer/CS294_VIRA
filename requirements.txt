@@ -2,5 +2,4 @@ gTTS==1.2.0
 SpeechRecognition==3.6.5
 PyAudio
 playsound==1.2.1
-pyobjc
 urllib3[secure]

@@ -46,7 +46,7 @@ class SteamUtility(object):
         exec_path = self.get_app_executable_path(app, extension)
         try:
             self.app_process = subprocess.Popen(['exec', exec_path])
-            print self.app_process 
+            print self.app_process
         except OSError as err:
             try:
                 self.app_process = subprocess.Popen(["/usr/bin/open", exec_path])
