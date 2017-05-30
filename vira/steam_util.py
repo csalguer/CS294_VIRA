@@ -5,13 +5,12 @@ System-related methods for manipulating Steam games
 that have already been installed on the system.
 
 Authored by Ikechi Akujobi, Matthew Chen, Chris Salguero.
-Cstring_294W, Spring 2016-2017.
+CS294W, Spring 2016-2017.
 © Stanford University.
 """
 
 import os
 import subprocess
-import signal
 
 
 class SteamUtility(object):

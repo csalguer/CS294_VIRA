@@ -5,7 +5,7 @@ Spelling corrector based on Levenshtein distance
 and a system-specific language model.
 
 Authored by Ikechi Akujobi, Matthew Chen, Chris Salguero.
-Cstring_294W, Spring 2016-2017.
+CS294W, Spring 2016-2017.
 © Stanford University.
 """
 
