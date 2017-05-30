@@ -5,19 +5,18 @@ A virtual assistant for VR-enabled operating systems.
 Installation
 ============
 ```
-    git clone https://github.com/csalguer/CS294_VIRA.git
-    cd CS294_VIRA
-
-    # only if on mac (requires homebrew installation)
+    ############ Mac OS X only ############
+    # Requires homebrew - https://brew.sh
     brew install portaudio
     pip install pyobjc
+    ##########################################
 
-    ######################################################
-    # only if on linux (or linux on windows)
+    ########### (Windows Subsystem for) Linux only ###########
     sudo apt-get install gcc portaudio19-dev python-all-dev
-    #######################################################
+    ##########################################################
 
-    # for mac, windows, and linux
+    git clone https://github.com/csalguer/CS294_VIRA.git
+    cd CS294_VIRA
     pip install -r requirements.txt
 
     # put on your VR headset with microphones + headphones
