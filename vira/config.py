@@ -16,6 +16,7 @@ class _Config(object):
     """Configuration variables"""
     APP_DATA_DIR = None
     APP_EXTENSION = None
+    OWM_API_KEY = '572e5d5ca97f536750ce07827fc53fa6'
 
 
 class _Mac(_Config):
