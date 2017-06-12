@@ -9,6 +9,7 @@ Installation
     # Requires homebrew - https://brew.sh
     brew install portaudio
     pip install pyobjc
+    pip install appscript
     ####
 
     ### (Windows Subsystem for) Linux only
