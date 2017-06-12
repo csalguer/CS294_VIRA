@@ -50,7 +50,7 @@ class SpellUtility(object):
     def get_closest_name(self, word):
         self.get_distances(word)
         name = min(self.distances, key=self.distances.get)
-        return self.app_names[name] if self.distances[name] < 10 else ""
+        return self.app_names[name] if self.distances[name] < 5 else ""
 
 
 def main():
