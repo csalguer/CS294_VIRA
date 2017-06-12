@@ -61,7 +61,7 @@ def main():
     # alert = pyglet.media.load('')
     # alert.play()
 
-    names = ["Vira", "Ikechi", "Matt", "Chris", "Giovanni", "Monica", "Violet"]
+    names = ["Vira", "Ikechi", "Matt", "Chris", "Giovanni", "Monica", "Violet", "Kaneshiro"]
     speech_util = vira.speech_util.SpeechUtility(voice_util, apps + names)
     speech_util.get_name()
     speech_util.print_hello()
