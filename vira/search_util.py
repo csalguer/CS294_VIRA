@@ -10,6 +10,7 @@ import pandas as pd
 from collections import namedtuple, defaultdict, Counter
 import re
 import math
+import subprocess
 from pandas import DataFrame as df_
 
 class _QueryItem(object):
@@ -102,6 +103,8 @@ class SearchUtility(object):
     # Specialized method that performs an extra similarity comparison 
     # utlizing
     def top5WalkthroughsForQuery(self, query, searchResult):
+        if "walkthrough" not in query or "guide" not in query:
+            query += " walkthrough"
         links = searchResult["link"]
         snippets = searchResult["snippet"]
         titles = searchResult["title"]
@@ -116,9 +119,10 @@ class SearchUtility(object):
             textbody = soup.get_text()
 
             titleSim = self.similarityEvaluation(query, title)
-            bodySim = self.similarityFunction(query, textbody)
-            combSim = titleSim + bodySim
-            similarities.append(combSim, i)
+            bodySim = self.similarityEvaluation(query, textbody)
+            snippetSim = self.similarityEvaluation(query, snippets[i])
+            combSim = titleSim + bodySim + snippetSim
+            similarities.append((combSim, i))
         ranked = sorted(similarities, key=lambda tup: tup[0])
         return [tup[1] for tup in ranked[:5]]
 
@@ -132,7 +136,8 @@ class SearchUtility(object):
             response = requests.get(url)
             soup = BeautifulSoup(response.content, "html.parser")
             textbody = soup.get_text()
-            print(textbody)
+            if self.debug is True:
+                print(textbody)
             sentences = []
             for term in query.split(" "):
                 snips = re.findall(r"([^.]*?" + term + "[^.]*\.)", textbody)
@@ -152,6 +157,16 @@ class SearchUtility(object):
         internalWeight = 1 - self.functionWeight
         return self.functionWeight*externalSim + internalMetric*internalWeight 
 
+    def spawnBroswerWindow(self, url):
+        if sys.platform=='win32':
+            os.startfile(url)
+        elif sys.platform=='darwin':
+            subprocess.Popen(['open', url])
+        else:
+            try:
+                subprocess.Popen(['xdg-open', url])
+            except OSError:
+                print('Please open a browser on: '+url)
 
     def _getJaccard(self, source, target):
         tgt_words = re.sub("[^\w]", " ", target).split()
@@ -197,8 +212,16 @@ def main():
     print(data)
     #Ordered array of indices with the best matches
     #By default can utilize first index for best results
-    top5 = sUtil.top5ResultsForQuery(query, data)
 
+    top5 = sUtil.top5ResultsForQuery(query, data)
+    top5Walkthru = sUtil.top5WalkthroughsForQuery(query, data)
+
+    links = data["link"]
+    bestURL = links[top5[0]]
+
+    bestWalkthru = links[top5Walkthru[0]]
+    sUtil.spawnBroswerWindow(bestURL)
+    sUtil.spawnBroswerWindow(bestWalkthru)
     #Extract sentences containing the query terms, array of len(top5)
     totalMentions = sUtil.getRelevantSnippets(query, data, top5)
     print(totalMentions)
