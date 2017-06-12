@@ -53,7 +53,7 @@ def main():
     spell_util = vira.spell_util.SpellUtility(apps)
     voice_util = vira.voice_util.VoiceUtility('vira/voice_files/output.mp3')
     weather_util = vira.weather_util.WeatherUtility()
-    
+    search_util =  vira.search_util.SearchUtility(debug=False)
     # pyglet.app.run()
     sys.stdout.write("\033[K")  # clear "loading..." line
     sys.stdout.flush()
@@ -101,6 +101,22 @@ def main():
             sa.set_volume(curr_volume / 14.0)
             if "weather" in command:
                 speak_and_print(voice_util, "{}, ".format(speech_util.first_name) + weather_util.get_weather())
+
+            #TEST SEARCH FUNCTION HERE!
+            # if "look up" or "search" in command:
+            #     query = command.replace("look up", "")
+            #     query = query.replace("search", "")
+            #     res_data = search_util.getDataFromSearch(query)
+            #     links = data["link"]
+            #     bestURL = links[0]
+            #     totalMentions = search_util.getRelevantSnippets(query, data, [0])
+            #     page_responses = totalMentions[0]
+            #     if len(page_responses) > 0:
+            #         for i in xrange(min(len(page_responses), 3)):
+            #             speak_and_print(voice_util, page_responses[i])
+            #     else:
+            #         speak_and_print(voice_util, "I couldn't find a best hint but here's a link to the most relevant result: ")
+            #         print(bestURL)
         else:
             print "Garbage: {}".format(prompt)
 

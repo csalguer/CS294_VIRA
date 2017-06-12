@@ -210,20 +210,22 @@ def main():
     sUtil = SearchUtility(debug=False)
     data = sUtil.getDataFromSearch(query)
     print(data)
+
+
     #Ordered array of indices with the best matches
     #By default can utilize first index for best results
 
-    top5 = sUtil.top5ResultsForQuery(query, data)
-    top5Walkthru = sUtil.top5WalkthroughsForQuery(query, data)
+    # top5 = sUtil.top5ResultsForQuery(query, data)
+    # top5Walkthru = sUtil.top5WalkthroughsForQuery(query, data)
 
     links = data["link"]
-    bestURL = links[top5[0]]
+    # bestURL = links[top5[0]]
 
-    bestWalkthru = links[top5Walkthru[0]]
-    sUtil.spawnBroswerWindow(bestURL)
-    sUtil.spawnBroswerWindow(bestWalkthru)
+    # bestWalkthru = links[top5Walkthru[0]]
+    # sUtil.spawnBroswerWindow(bestURL)
+    # sUtil.spawnBroswerWindow(bestWalkthru)
     #Extract sentences containing the query terms, array of len(top5)
-    totalMentions = sUtil.getRelevantSnippets(query, data, top5)
+    totalMentions = sUtil.getRelevantSnippets(query, data, [0])
     print(totalMentions)
 
 
