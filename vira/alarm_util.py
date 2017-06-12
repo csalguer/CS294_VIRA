@@ -39,10 +39,10 @@ class AlarmUtility(object):
             sys.stdout.flush()
 
     def ring(self):
-    	self.event.set()
-    	path = '/Applications/VLC.app/Contents/MacOS/VLC'
-    	mp3 = '/Users/Ikechi/Downloads/01sispuellamagica.mp3'
-    	subprocess.call([path, mp3])
+        self.event.set()
+        path = '/Applications/VLC.app/Contents/MacOS/VLC'
+        mp3 = '/Users/Ikechi/Developer/cs294w/CS294_VIRA/vira/alarm.mp3'
+        subprocess.call([path, mp3])
 
 
     def set_alarm(self, hour, minute):
@@ -60,15 +60,16 @@ class AlarmUtility(object):
 
 
 def process_func(hour, minute):
-	alarm = AlarmUtility()
-	alarm.set_alarm(hour, minute)
-	alarm.run()
+    alarm = AlarmUtility()
+    alarm.set_alarm(hour, minute)
+    alarm.run()
 
 def start_alarm():
-	hour = "10"
-	minute = "10"
-	p = multiprocessing.Process(target=main, args=(hour, minute))
-	p.start()
+    call_time = datetime.datetime.now()
+    alarm_time = call_time.replace(minute=(call_time.minute+3)%60)
+    p = multiprocessing.Process(target=process_func, args=(alarm_time.hour, alarm_time.minute))
+    p.start()
 
 if __name__ == "__main__":
-	
+    start_alarm()
+    
