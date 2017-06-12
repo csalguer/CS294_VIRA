@@ -9,9 +9,9 @@ TODO
 - search google for blah (Chris has started doing it for video game walkthroughs)
 - by default common tasks for google
 - by default common tasks for siri
-- search wolfram alpha
+- search wolfram alpha (Chris has started doing it for video game walkthroughs)
 - set time
-- walkthrough for game
+- walkthrough for game (Chris has started doing it for video game walkthroughs)
 - bing has api for results
 - throw voice to google assistant
 - throw voice to api

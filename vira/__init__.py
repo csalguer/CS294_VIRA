@@ -8,7 +8,7 @@ CS294W, Spring 2016-2017.
 © Stanford University.
 """
 
-__all__ = ['config', 'speech_util', 'spell_util', 'steam_util', 'voice_util', 'weather_util']
+__all__ = ['config', 'speech_util', 'spell_util', 'steam_util', 'voice_util', 'weather_util', 'search_util']
 
 import vira.config
 import vira.speech_util
@@ -16,3 +16,4 @@ import vira.spell_util
 import vira.steam_util
 import vira.voice_util
 import vira.weather_util
+import vira.search_util
