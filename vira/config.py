@@ -13,16 +13,19 @@ import sys
 
 
 class _Config(object):
-    """Configuration variables"""
+    """Configuration variables that are not OS-specific"""
+    ALARM_PATH = os.path.join('audio_files', 'alarm.mp3')
     APP_DATA_DIR = None
     APP_EXTENSION = None
     OWM_API_KEY = '572e5d5ca97f536750ce07827fc53fa6'
+    VLC_PATH = None
 
 
 class _Mac(_Config):
     """Configuration variables for macOS 10.12"""
     APP_DATA_DIR = os.path.expanduser(r'~/Library/Application Support/Steam/steamapps/common')
     APP_EXTENSION = ".app"
+    VLC_PATH = '/Applications/VLC.app/Contents/MacOS/VLC'
 
 
 class _Windows(_Config):
