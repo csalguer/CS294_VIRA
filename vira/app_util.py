@@ -59,7 +59,7 @@ class AppUtility(object):
             # windows specific
             # need to ask Chris if this works / test it
             subprocess.call(['taskkill', '/F', '/T', '/PID',
-                            str(self.app_process.pid)])
+                             str(self.app_process.pid)])
         except OSError:
             # this seems to be macOS / Linux specific
             # TODO: non-Pangemic apps are not named "main"
