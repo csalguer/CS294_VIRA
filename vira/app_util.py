@@ -13,7 +13,7 @@ import os
 import subprocess
 
 
-class SteamUtility(object):
+class ApplicationUtility(object):
     """Class for manipulating Steam games"""
 
     def __init__(self, apps_dir_path):
