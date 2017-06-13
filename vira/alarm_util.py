@@ -40,8 +40,7 @@ class AlarmUtility(object):
             with open(os.devnull, 'wb') as devnull:
                 subprocess.check_call([self.vlc_path, self.mp3_path],
                                       stdout=devnull,
-                                      stderr=subprocess.STDOUT,
-                                      close_fds=True)
+                                      stderr=subprocess.STDOUT)
 
     def set_alarm(self, hour, minute):
         now = datetime.datetime.now()
