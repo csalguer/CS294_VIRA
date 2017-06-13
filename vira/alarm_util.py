@@ -41,7 +41,7 @@ class AlarmUtility(object):
     def ring(self):
         self.event.set()
         path = '/Applications/VLC.app/Contents/MacOS/VLC'
-        mp3 = '/Users/Ikechi/Developer/cs294w/CS294_VIRA/vira/alarm.mp3'
+        mp3 = '/Users/mchenja/Developer/vira/vira/voice_files/alarm.mp3'
         subprocess.call([path, mp3])
 
 
@@ -58,18 +58,17 @@ class AlarmUtility(object):
         self._alarm_thread.daemon = True
         self._alarm_thread.start()
 
+    def process_func(self, hour, minute):
+        self.set_alarm(hour, minute)
+        self.run()
 
-def process_func(hour, minute):
-    alarm = AlarmUtility()
-    alarm.set_alarm(hour, minute)
-    alarm.run()
-
-def start_alarm():
-    call_time = datetime.datetime.now()
-    alarm_time = call_time.replace(minute=(call_time.minute+3)%60)
-    p = multiprocessing.Process(target=process_func, args=(alarm_time.hour, alarm_time.minute))
-    p.start()
+    def start_alarm(self):
+        call_time = datetime.datetime.now()
+        alarm_time = call_time.replace(minute=(call_time.minute+2)%60)
+        p = multiprocessing.Process(target=self.process_func, args=(alarm_time.hour, alarm_time.minute))
+        p.start()
 
 if __name__ == "__main__":
-    start_alarm()
+    alarm_util = AlarmUtility()
+    alarm_util.start_alarm()
     

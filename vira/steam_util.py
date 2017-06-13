@@ -45,29 +45,29 @@ class SteamUtility(object):
         exec_path = self.get_app_executable_path(app, extension)
         try:
             self.app_process = subprocess.Popen(['exec', exec_path])
-            print self.app_process
+            # print self.app_process
         except OSError as err:
             try:
                 self.app_process = subprocess.Popen(["/usr/bin/open", exec_path])
-                print "[Popen OBJ]: ", self.app_process
-                print "[PID]: ", self.app_process.pid
+                # print "[Popen OBJ]: ", self.app_process
+                # print "[PID]: ", self.app_process.pid
             except:
-                print "Original error:\n{}".format(err)
-                print "==============================="
-                print "There is another error:"
+                # print "Original error:\n{}".format(err)
+                # print "==============================="
+                # print "There is another error:"
                 raise
 
     def kill_app(self):
         assert self.app_process is not None
         try:
             # WINDOWS specific implementation for killing
-            print("<WINDOWS> Closing {}".format(self.APPNAME))
+            # print("<WINDOWS> Closing {}".format(self.APPNAME))
             subprocess.call(['taskkill', '/F', '/T', '/PID', str(self.app_process.pid)])
         except OSError as err:
             # MAC Specific implementation for killing app
-            print "<WINDOWS FAILED> Kill command not recognized"
-            print "\tSwitching to different OS kill cmd..."
-            print "<MAC> Closing {}".format(self.APPNAME)
+            # print "<WINDOWS FAILED> Kill command not recognized"
+            # print "\tSwitching to different OS kill cmd..."
+            # print "<MAC> Closing {}".format(self.APPNAME)
             subprocess.Popen(['killall', self.APPNAME])
             
 

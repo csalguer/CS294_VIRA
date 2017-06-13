@@ -30,8 +30,8 @@ Config = namedtuple('Config',['developerKey','cx'])
 
 class SearchUtility(object):
     """USES set up CSE on Google Cloud Api to make Search Calls"""
-    def __init__(self, similarityFunction=None, functionWeight=0, configFile='customsearch.json', debug=True):
-        print("DEBUG MODE: ", debug)
+    def __init__(self, similarityFunction=None, functionWeight=0, configFile='vira/customsearch.json', debug=True):
+        # print("DEBUG MODE: ", debug)
         # Asserts to checks that validity of sim func and weight
         if similarityFunction is not None:
             assert 0 < functionWeight <= 1.0

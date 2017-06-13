@@ -53,6 +53,9 @@ def main():
     spell_util = vira.spell_util.SpellUtility(apps)
     voice_util = vira.voice_util.VoiceUtility('vira/voice_files/output.mp3')
     weather_util = vira.weather_util.WeatherUtility()
+    joke_util = vira.joke_util.JokeUtility()
+    alarm_util = vira.alarm_util.AlarmUtility()
+    search_util = vira.search_util.SearchUtility()
     
     # pyglet.app.run()
     sys.stdout.write("\033[K")  # clear "loading..." line
@@ -96,11 +99,17 @@ def main():
         if "vira" in prompt:
             curr_volume = abs(sa.get_volume_settings()[vol_settings[2]] - 1.0)
             play_alert()
-            sa.set_volume(0)
+            # sa.set_volume(0)
             command = speech_util.listen_for_command().lower()
-            sa.set_volume(curr_volume / 14.0)
+            # sa.set_volume(curr_volume / 14.0)
             if "weather" in command:
                 speak_and_print(voice_util, "{}, ".format(speech_util.first_name) + weather_util.get_weather())
+            elif "joke" in command:
+                speak_and_print(voice_util, "{}, ".format(speech_util.first_name) + joke_util.get_joke())
+            elif "alarm" in command:
+                alarm_util.start_alarm()
+                speak_and_print(voice_util, "{}, I set an alarm to go off in two minutes.".format(speech_util.first_name))
+
         else:
             print "Garbage: {}".format(prompt)
 
