@@ -10,18 +10,21 @@ CS294W, Spring 2016-2017.
 
 import datetime
 import multiprocessing
+import os
 import subprocess
 import threading
 
 
 class AlarmUtility(object):
-    """A class representing a basic alarm clock"""
+    """A class representing a basic alarm clock."""
 
-    def __init__(self):
+    def __init__(self, vlc_path=None, mp3_path=None):
         self.alarm_time = None
         self._alarm_thread = None
         self.update_interval = 1
         self.event = threading.Event()
+        self.vlc_path = vlc_path
+        self.mp3_path = mp3_path
 
     def run(self):
         while True:
@@ -31,9 +34,13 @@ class AlarmUtility(object):
 
     def ring(self):
         self.event.set()
-        path = '/Applications/VLC.app/Contents/MacOS/VLC'
-        mp3 = '/Users/mchenja/Developer/vira/vira/voice_files/alarm.mp3'
-        subprocess.call([path, mp3])
+        if not (self.vlc_path and self.mp3_path):
+            print "Your alarm is ringing!"
+        else:
+            with open(os.devnull, 'wb') as devnull:
+                subprocess.check_call([self.vlc_path, self.mp3_path],
+                                      stdout=devnull,
+                                      stderr=subprocess.STDOUT)
 
     def set_alarm(self, hour, minute):
         now = datetime.datetime.now()
@@ -54,10 +61,15 @@ class AlarmUtility(object):
 
     def start_alarm(self):
         call_time = datetime.datetime.now()
-        alarm_time = call_time.replace(minute=(call_time.minute+2)%60)
-        p = multiprocessing.Process(target=self.process_func, args=(alarm_time.hour, alarm_time.minute))
-        p.start()
+        alarm_time = call_time.replace(minute=(call_time.minute+1) % 60)
+        process = multiprocessing.Process(target=self.process_func,
+                                          args=(alarm_time.hour,
+                                                alarm_time.minute))
+        process.start()
+
 
 if __name__ == "__main__":
-    alarm_util = AlarmUtility()
-    alarm_util.start_alarm()
+    import config
+    CNFG = config.get_config()
+    ALARM_UTIL = AlarmUtility(CNFG.VLC_PATH, CNFG.ALARM_PATH)
+    ALARM_UTIL.start_alarm()
