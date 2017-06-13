@@ -55,8 +55,7 @@ def main():
     weather_util = vira.weather_util.WeatherUtility()
     joke_util = vira.joke_util.JokeUtility()
     alarm_util = vira.alarm_util.AlarmUtility()
-    search_util = vira.search_util.SearchUtility()
-    
+    search_util =  vira.search_util.SearchUtility(debug=False)
     # pyglet.app.run()
     sys.stdout.write("\033[K")  # clear "loading..." line
     sys.stdout.flush()
@@ -64,7 +63,7 @@ def main():
     # alert = pyglet.media.load('')
     # alert.play()
 
-    names = ["Vira", "Ikechi", "Matt", "Chris", "Giovanni", "Monica", "Violet"]
+    names = ["Vira", "Ikechi", "Matt", "Chris", "Giovanni", "Monica", "Violet", "Kaneshiro"]
     speech_util = vira.speech_util.SpeechUtility(voice_util, apps + names)
     speech_util.get_name()
     speech_util.print_hello()
@@ -104,12 +103,31 @@ def main():
             # sa.set_volume(curr_volume / 14.0)
             if "weather" in command:
                 speak_and_print(voice_util, "{}, ".format(speech_util.first_name) + weather_util.get_weather())
+<<<<<<< HEAD
             elif "joke" in command:
                 speak_and_print(voice_util, "{}, ".format(speech_util.first_name) + joke_util.get_joke())
             elif "alarm" in command:
                 alarm_util.start_alarm()
                 speak_and_print(voice_util, "{}, I set an alarm to go off in two minutes.".format(speech_util.first_name))
 
+=======
+
+            #TEST SEARCH FUNCTION HERE!
+            # if "look up" or "search" in command:
+            #     query = command.replace("look up", "")
+            #     query = query.replace("search", "")
+            #     res_data = search_util.getDataFromSearch(query)
+            #     links = data["link"]
+            #     bestURL = links[0]
+            #     totalMentions = search_util.getRelevantSnippets(query, data, [0])
+            #     page_responses = totalMentions[0]
+            #     if len(page_responses) > 0:
+            #         for i in xrange(min(len(page_responses), 3)):
+            #             speak_and_print(voice_util, page_responses[i])
+            #     else:
+            #         speak_and_print(voice_util, "I couldn't find a best hint but here's a link to the most relevant result: ")
+            #         print(bestURL)
+>>>>>>> fd82ca5317999ec24b2db612bf2b0e9ae78666c5
         else:
             print "Garbage: {}".format(prompt)
 

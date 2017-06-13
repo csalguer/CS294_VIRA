@@ -5,13 +5,14 @@ from pprint import pprint
 import json
 from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
-import requests
+import urllib2
 import pandas as pd
 from collections import namedtuple, defaultdict, Counter
 import re
 import math
 import subprocess
 from pandas import DataFrame as df_
+from voice_util import VoiceUtility
 
 class _QueryItem(object):
     def __init__(self,dic):
@@ -114,10 +115,22 @@ class SearchUtility(object):
             print("Snippets: ", snippets)
             print("Titles: ", titles)
         for (i, title) in enumerate(titles):
-            response = requests.get(links[i])
-            soup = BeautifulSoup(response.content, "html.parser")
-            textbody = soup.get_text()
+            hdr = {'User-Agent': 'Mozilla/5.0'}
+            req = urllib2.Request(links[i],headers=hdr)
+            page = urllib2.urlopen(req)
+            soup = BeautifulSoup(page, "html.parser")
+            texts = soup.findAll('p', text=True)
+            def visible(element):
+                if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
+                    return False
+                elif re.match('<!--.*-->', element.encode('utf-8')):
+                    return False
+                return True 
 
+            visible_texts = filter(visible, texts)
+            clean_text = [tag.text for tag in visible_texts]
+            # print(clean_text)
+            textbody = " ".join(clean_text)
             titleSim = self.similarityEvaluation(query, title)
             bodySim = self.similarityEvaluation(query, textbody)
             snippetSim = self.similarityEvaluation(query, snippets[i])
@@ -133,15 +146,31 @@ class SearchUtility(object):
         containing = []
         for i in top5Indices:
             url = links[i]
-            response = requests.get(url)
-            soup = BeautifulSoup(response.content, "html.parser")
-            textbody = soup.get_text()
+            hdr = {'User-Agent': 'Mozilla/5.0'}
+            req = urllib2.Request(url,headers=hdr)
+            page = urllib2.urlopen(req)
+            soup = BeautifulSoup(page, "html.parser")
+            
+            # response = requests.get(url)
+            # soup = BeautifulSoup(response.content, "html.parser")
+            # textbody = soup.get_text()
+            texts = soup.findAll('p', text=True)
+            def visible(element):
+                if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
+                    return False
+                elif re.match('<!--.*-->', element.encode('utf-8')):
+                    return False
+                return True 
+
+            visible_texts = filter(visible, texts)
+            clean_text = [tag.text for tag in visible_texts]
+            # print(clean_text)
+            textbody = " ".join(clean_text)
             if self.debug is True:
+                print(visible_texts)
+                print(clean_text)
                 print(textbody)
-            sentences = []
-            for term in query.split(" "):
-                snips = re.findall(r"([^.]*?" + term + "[^.]*\.)", textbody)
-                sentences += snips
+            sentences = clean_text
             containing.append(sentences)
         return containing
 
@@ -210,21 +239,28 @@ def main():
     sUtil = SearchUtility(debug=False)
     data = sUtil.getDataFromSearch(query)
     print(data)
+
+
     #Ordered array of indices with the best matches
     #By default can utilize first index for best results
 
-    top5 = sUtil.top5ResultsForQuery(query, data)
-    top5Walkthru = sUtil.top5WalkthroughsForQuery(query, data)
+    # top5 = sUtil.top5ResultsForQuery(query, data)
+    # top5Walkthru = sUtil.top5WalkthroughsForQuery(query, data)
 
     links = data["link"]
-    bestURL = links[top5[0]]
+    # bestURL = links[top5[0]]
 
-    bestWalkthru = links[top5Walkthru[0]]
-    sUtil.spawnBroswerWindow(bestURL)
-    sUtil.spawnBroswerWindow(bestWalkthru)
+    # bestWalkthru = links[top5Walkthru[0]]
+    # sUtil.spawnBroswerWindow(bestURL)
+    # sUtil.spawnBroswerWindow(bestWalkthru)
     #Extract sentences containing the query terms, array of len(top5)
-    totalMentions = sUtil.getRelevantSnippets(query, data, top5)
-    print(totalMentions)
+    totalMentions = sUtil.getRelevantSnippets(query, data, [0])
+    snipsToVoice = totalMentions[0]
+    print(snipsToVoice)
+    for i in xrange(min(len(snipsToVoice), 3)):
+        voice_util = VoiceUtility('voice_files/output.mp3')
+        voice_util.utter_phrase(snipsToVoice[i])
+    
 
 
 
