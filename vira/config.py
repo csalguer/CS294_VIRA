@@ -12,12 +12,16 @@ CS294W, Spring 2016-2017.
 import os
 import sys
 
+_cwd = os.path.dirname(os.path.realpath(__file__))
 
 class _Config(object):
     """Configuration variables that are not OS-specific"""
-    ALARM_PATH = os.path.join('audio_files', 'alarm.mp3')
+    ALARM_PATH = os.path.join(_cwd, "audio_files", "alarm.mp3")
+    ALARM_WAV_PATH = os.path.join(_cwd, "audio_files", "alarm.wav")
+    ALERT_PATH = os.path.join(_cwd, "audio_files", "alert.wav")
     APP_DATA_DIR = None
     APP_EXTENSION = None
+    CONFIRM_PATH = os.path.join(_cwd, "audio_files", "confirm.wav")
     GOOGLE_CREDENTIALS = r"""{
                               "type": "service_account",
                               "project_id": "pac2text",
@@ -32,7 +36,9 @@ class _Config(object):
                               }
                            """
     OWM_API_KEY = '572e5d5ca97f536750ce07827fc53fa6'
+    SEARCH_CREDENTIAL_PATH = os.path.join(_cwd, "config_files", "search.json")
     VLC_PATH = None
+    VOICE_PATH = os.path.join(_cwd, "audio_files", "output.mp3")
 
 
 class _Mac(_Config):

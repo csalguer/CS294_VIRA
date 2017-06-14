@@ -49,7 +49,7 @@ Config = namedtuple('Config', ['developerKey', 'cx'])
 class SearchUtility(object):
     """USES set up CSE on Google Cloud Api to make Search Calls"""
     def __init__(self, similarity_function=None, function_weight=0,
-                 configFile=None, debug=False):
+                 config_file=None, debug=False):
         # print("DEBUG MODE: ", debug)
         # Asserts to checks that validity of sim func and weight
         if similarity_function is not None:
@@ -60,7 +60,7 @@ class SearchUtility(object):
         self.similarity_function = similarity_function
         self.function_weight = function_weight
         super(SearchUtility, self).__init__()
-        config = Config(**json.load(open(configFile, 'r')))
+        config = Config(**json.load(open(config_file, 'r')))
         self.config = config
         self.service = build("customsearch", "v1",
                              developerKey=self.config.developerKey)
@@ -231,17 +231,18 @@ class SearchUtility(object):
 
 def main():
     """Simple test usage of the search utility."""
+    import config
     import voice_util
+
+    CNFG = config.get_config()
     print("Enter search query: ")
     query = raw_input()
-    config_file_path = os.path.join("config_files", "search.json")
-    search_util = SearchUtility(configFile=config_file_path)
+    search_util = SearchUtility(config_file=CNFG.SEARCH_CREDENTIAL_PATH)
     data = search_util.get_data_from_search(query)
     total_mentions = search_util.get_relevant_snippets(data, [0])
     snips_to_voice = total_mentions[0]
     for i in xrange(min(len(snips_to_voice), 3)):
-        voice_output_path = os.path.join("voice_files", "output.mp3")
-        voice_utility = voice_util.VoiceUtility(voice_output_path)
+        voice_utility = voice_util.VoiceUtility()
         voice_utility.utter_phrase(snips_to_voice[i])
 
 

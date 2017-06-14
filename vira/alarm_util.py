@@ -15,6 +15,8 @@ import os
 import subprocess
 import threading
 
+import config
+import voice_util
 
 class AlarmUtility(object):
     """A class representing a basic alarm clock."""
@@ -27,21 +29,32 @@ class AlarmUtility(object):
         self.vlc_path = vlc_path
         self.mp3_path = mp3_path
 
+        CNFG = config.get_config()
+        self.voice_util = voice_util.VoiceUtility(CNFG.VOICE_PATH, CNFG.ALERT_PATH, CNFG.CONFIRM_PATH)
+        self.alarm_path = CNFG.ALARM_WAV_PATH
+
     def run(self):
         while True:
             self.event.wait(self.update_interval)
             if self.event.isSet():
                 break
 
-    def ring(self):
-        self.event.set()
+    def vlc_ring(self):
         if not (self.vlc_path and self.mp3_path):
             print "Your alarm is ringing!"
         else:
             with open(os.devnull, 'wb') as devnull:
                 subprocess.check_call([self.vlc_path, self.mp3_path],
                                       stdout=devnull,
-                                      stderr=subprocess.STDOUT)
+                                      stderr=devnull)
+        self.event.set()
+
+    def ring(self):
+        try:
+            self.voice_util.play_noise(self.alarm_path)
+        except Exception as err:
+            self.vlc_ring()
+        self.event.set()
 
     def set_alarm(self, hour, minute):
         now = datetime.datetime.now()
@@ -60,9 +73,9 @@ class AlarmUtility(object):
         self.set_alarm(hour, minute)
         self.run()
 
-    def start_alarm(self):
+    def start_alarm(self, minutes_from_now=1):
         call_time = datetime.datetime.now()
-        alarm_time = call_time.replace(minute=(call_time.minute + 1) % 60)
+        alarm_time = call_time.replace(minute=(call_time.minute + minutes_from_now) % 60)
         process = multiprocessing.Process(target=self.process_func,
                                           args=(alarm_time.hour,
                                                 alarm_time.minute))
@@ -70,7 +83,6 @@ class AlarmUtility(object):
 
 
 if __name__ == "__main__":
-    import config
     CNFG = config.get_config()
     ALARM_UTIL = AlarmUtility(CNFG.VLC_PATH, CNFG.ALARM_PATH)
     ALARM_UTIL.start_alarm()

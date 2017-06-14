@@ -19,13 +19,13 @@ class TimeUtility(object):
         now = datetime.datetime.now()
         hour = 12 if now.hour % 12 == 0 else now.hour % 12
         meridiem = "AM" if now.hour < 12 else "PM"
-        return "The time is %d:%02d %s." % (hour, now.minute, meridiem)
+        return "%d:%02d %s" % (hour, now.minute, meridiem)
 
 
 def main():
     """Prints the time."""
     time_util = TimeUtility()
-    print time_util.get_time()
+    print "The time is " + time_util.get_time() + "."
 
 
 if __name__ == "__main__":

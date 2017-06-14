@@ -10,7 +10,7 @@ CS294W, Spring 2016-2017.
 """
 
 __all__ = ['config', 'alarm_util', 'app_util', 'joke_util', 'search_util',
-           'speech_util', 'spell_util', 'voice_util', 'weather_util']
+           'speech_util', 'spell_util', 'time_util', 'voice_util', 'volume_util', 'weather_util']
 
 import vira.config
 import vira.alarm_util
@@ -19,5 +19,7 @@ import vira.joke_util
 import vira.search_util
 import vira.speech_util
 import vira.spell_util
+import vira.time_util
 import vira.voice_util
+import vira.volume_util
 import vira.weather_util

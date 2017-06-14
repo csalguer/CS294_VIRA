@@ -111,13 +111,38 @@ class SpeechUtility(object):
             self.get_name()
         print "Hi, {}!".format(self.first_name)
 
-    def listen_for_command(self):
-        """Listens for anything; upon hearing it, returns what was heard."""
+    def listen_for_prompt(self):
+        """Listens for VIRA; ignores if something else is heard."""
         with sr.Microphone() as mike:
             while True:
                 try:
+                    print "Say 'VIRA' to activate me...", '\r',
+                    sys.stdout.flush()
+                    audio = self.recognizer.listen(mike)
+                    prompt = self.recognizer.recognize_google_cloud(audio, credentials_json=self.google_credentials, preferred_phrases=self.preferred_phrases)
+                    if "vira" in prompt.lower():
+                        sys.stdout.write("\033[K")
+                        sys.stdout.flush()
+                        return True
+                except sr.UnknownValueError:
+                    continue
+                except sr.RequestError:
+                    print "RequestError: The requested transmission failed."
+                    raise
+
+        return False
+
+    def listen_for_command(self):
+        """Listens for any command and returns it."""
+        with sr.Microphone() as mike:
+            while True:
+                try:
+                    print "Listening for a command...", '\r',
+                    sys.stdout.flush()
                     audio = self.recognizer.listen(mike)
                     command = self.recognizer.recognize_google_cloud(audio, credentials_json=self.google_credentials, preferred_phrases=self.preferred_phrases)
+                    sys.stdout.write("\033[K")
+                    sys.stdout.flush()
                     break
                 except sr.UnknownValueError:
                     continue
@@ -125,14 +150,14 @@ class SpeechUtility(object):
                     print "RequestError: The requested transmission failed."
                     raise
 
-        return command
+        return command.lower()
 
 
 def main():
     import config
     CNFG = config.get_config()
     import voice_util
-    voice_box = voice_util.VoiceUtility()
+    voice_box = voice_util.VoiceUtility(CNFG.VOICE_PATH, CNFG.ALERT_PATH, CNFG.CONFIRM_PATH)
     speech_util = SpeechUtility(voice_util=voice_box, google_credentials=CNFG.GOOGLE_CREDENTIALS)
     speech_util.print_hello()
 
