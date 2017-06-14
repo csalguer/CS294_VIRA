@@ -51,7 +51,7 @@ VIRA does not currently work on Windows or Linux due to [this issue](https://git
 Contributing to VIRA
 ====================
 Anyone can submit a [pull request](https://github.com/vira-assistant/vira/pulls) to customize this baseline implementation of VIRA. Please ensure that your code confirms to PEP8 before submission; run
-both Pylint and flake8 on it. (These tools are stricter than is necessary to confirm to PEP8, which
+both [Pylint](https://pylint.readthedocs.io) and [flake8](http://flake8.pycqa.org/) on it. (These tools are stricter than is necessary to confirm to PEP8, which
 is why you will notice they report issues with the pre-existing code even though they have been
 continually used during development.)
 
