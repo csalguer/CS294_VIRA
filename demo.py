@@ -9,9 +9,7 @@ CS294W, Spring 2016-2017.
 """
 
 
-import os
 import sys
-import time
 
 import vira
 
@@ -20,6 +18,7 @@ def speak_and_print(voice_util, phrase):
     if voice_util:
         voice_util.utter_phrase(phrase)
     print phrase
+
 
 def main():
     print "VIRA is loading...", '\r',
@@ -123,7 +122,7 @@ def main():
             time = time_util.get_time()
             speak_and_print(voice_util, "The curent time is {}, {}.".format(time, speech_util.first_name))
 
-        elif ("search" in command or "look up" in command):
+        elif "search" in command or "look up" in command:
             query = command.replace("look up", "")
             query = query.replace("search", "")
             res_data = search_util.get_data_from_search(query)
@@ -131,21 +130,20 @@ def main():
             bestURL = links[0]
             totalMentions = search_util.get_relevant_snippets(res_data, [0])
             page_responses = totalMentions[0]
-            if len(page_responses) > 0:
+            if page_responses:
                 for i in xrange(min(len(page_responses), 3)):
                     speak_and_print(voice_util, page_responses[i])
             else:
                 speak_and_print(voice_util, "I couldn't find a best hint, but here's a link to the most relevant result: ")
-                print(bestURL)
+                print bestURL
 
-        elif "quit" in command or "close" in command:
+        elif "quit" in command or "close" in command or "shut down" in command or "exit" in command:
             speak_and_print(voice_util, "Alright, {}. I'll shut down.".format(speech_util.first_name))
             app_util.kill_app()
             return
 
         else:
             speak_and_print(voice_util, "I'm sorry, {}. Could you try another command?".format(speech_util.first_name))
-
 
 
 if __name__ == "__main__":
