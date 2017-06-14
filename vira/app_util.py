@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 """ApplicationUtility
 
@@ -57,7 +58,6 @@ class AppUtility(object):
         assert self.app_process
         try:
             # windows specific
-            # need to ask Chris if this works / test it
             subprocess.call(['taskkill', '/F', '/T', '/PID',
                              str(self.app_process.pid)])
         except OSError:
@@ -80,7 +80,7 @@ def main():
     print "Available Steam applications:"
     for num, elem in enumerate(apps, start=1):
         print "    {}. {}".format(num, elem)
-    steam_util.spawn_app(apps[1], CNFG.APP_EXTENSION)
+    steam_util.spawn_app(apps[0], CNFG.APP_EXTENSION)
     print "Waiting for enter to kill process: [PRESS ENTER]"
     print "================================================"
     raw_input()
