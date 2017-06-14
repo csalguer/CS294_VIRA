@@ -15,13 +15,15 @@ class TimeUtility(object):
     """Basic class to tell the time"""
 
     def get_time(self):
+        """Returns the time, already formatted."""
         now = datetime.datetime.now()
         hour = 12 if now.hour % 12 == 0 else now.hour % 12
         meridiem = "AM" if now.hour < 12 else "PM"
-        return "The time is %d:%d %s" % (hour, now.minute, meridiem)
+        return "The time is %d:%02d %s." % (hour, now.minute, meridiem)
 
 
 def main():
+    """Prints the time."""
     time_util = TimeUtility()
     print time_util.get_time()
 

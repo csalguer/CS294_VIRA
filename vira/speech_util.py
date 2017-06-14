@@ -131,7 +131,9 @@ class SpeechUtility(object):
 def main():
     import config
     CNFG = config.get_config()
-    speech_util = SpeechUtility(CNFG.GOOGLE_CREDENTIALS)
+    import voice_util
+    voice_box = voice_util.VoiceUtility()
+    speech_util = SpeechUtility(voice_util=voice_box, google_credentials=CNFG.GOOGLE_CREDENTIALS)
     speech_util.print_hello()
 
 
