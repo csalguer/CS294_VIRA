@@ -62,7 +62,7 @@ class AlarmUtility(object):
 
     def start_alarm(self):
         call_time = datetime.datetime.now()
-        alarm_time = call_time.replace(minute=(call_time.minute+1) % 60)
+        alarm_time = call_time.replace(minute=(call_time.minute + 1) % 60)
         process = multiprocessing.Process(target=self.process_func,
                                           args=(alarm_time.hour,
                                                 alarm_time.minute))

@@ -22,6 +22,7 @@ class SpellUtility(object):
         self.distances = collections.defaultdict(lambda: 10)
 
     def levenshtein(self, string_1, string_2):
+        """Calculates levenshtein distance."""
         if not string_2:
             return len(string_1)
 
@@ -44,10 +45,14 @@ class SpellUtility(object):
         return previous_row[-1]
 
     def get_distances(self, word):
+        """Calculates levenshtein distance for each app name."""
         for name in self.app_names:
             self.distances[name] = self.levenshtein(word, name)
 
     def get_closest_name(self, word):
+        """Returns the app name that is closest to the word.
+           Returns nothing if there is no close app name.
+        """
         self.get_distances(word)
         name = min(self.distances, key=self.distances.get)
         return self.app_names[name] if self.distances[name] < 5 else ""
